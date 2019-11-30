@@ -7,6 +7,8 @@ Following fields are printed in the terminal
  - Repository Name
  - Primary Language
  - Total repository count for an organization
+
+ 
 Usage:
  ./ghbrowser org_name
 
