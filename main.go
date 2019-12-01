@@ -11,7 +11,7 @@ import (
 )
 
 type query struct {
-	Organization struct {
+	RepositoryOwner struct {
 		Repositories struct {
 			TotalCount githubv4.Int
 			Nodes      []struct {
@@ -25,7 +25,7 @@ type query struct {
 				EndCursor   githubv4.String
 			}
 		} `graphql:"repositories(first:$pageSize,after:$repositoriesCursor)"`
-	} `graphql:"organization(login:$user)"`
+	} `graphql:"repositoryOwner(login:$user)"`
 }
 
 func main() {
@@ -65,17 +65,17 @@ func fetchRepoDetails(ctx context.Context, cli *githubv4.Client,
 		return err
 	}
 
-	for _, repo := range q.Organization.Repositories.Nodes {
+	for _, repo := range q.RepositoryOwner.Repositories.Nodes {
 		fmt.Printf("%s|%s|%d\n", repo.Name,
 			repo.PrimaryLanguage.Name,
-			q.Organization.Repositories.TotalCount)
+			q.RepositoryOwner.Repositories.TotalCount)
 	}
 
-	if !q.Organization.Repositories.PageInfo.HasNextPage {
+	if !q.RepositoryOwner.Repositories.PageInfo.HasNextPage {
 		return nil
 	}
 
-	variables["repositoriesCursor"] = q.Organization.Repositories.PageInfo.EndCursor
+	variables["repositoriesCursor"] = q.RepositoryOwner.Repositories.PageInfo.EndCursor
 
 	return fetchRepoDetails(ctx, cli, variables)
 
