@@ -10,5 +10,6 @@ Following fields are printed in the terminal
 
  
 Usage:
+
  ./ghbrowser org_name
 
